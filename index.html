@@ -1,15 +1,727 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>5 фильмов, которые пробирают до костей</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 фильмов, которые пробирают до костей</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --warm-50: #faf9f7;
+      --warm-100: #f5f3ef;
+      --warm-200: #e8e4dd;
+      --warm-300: #d4cec3;
+      --warm-400: #b5ad9e;
+      --warm-500: #968c7a;
+      --warm-600: #7a7062;
+      --warm-700: #5c5449;
+      --warm-800: #3d3730;
+      --warm-900: #1f1b17;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--warm-50);
+      color: var(--warm-800);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    ::selection {
+      background-color: var(--warm-300);
+      color: var(--warm-900);
+    }
+
+    .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    .header {
+      padding: 64px 24px 48px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeInUp 1s ease-out forwards;
+    }
+
+    @media (min-width: 640px) {
+      .header {
+        padding: 96px 24px 64px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .header {
+        padding: 128px 24px 80px;
+      }
+    }
+
+    .header-inner {
+      max-width: 672px;
+      margin: 0 auto;
+    }
+
+    .header-label {
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--warm-400);
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--warm-900);
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+    }
+
+    @media (min-width: 640px) {
+      .header-title {
+        font-size: 48px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .header-title {
+        font-size: 60px;
+      }
+    }
+
+    .header-subtitle {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--warm-500);
+      font-weight: 300;
+      max-width: 512px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+      .header-subtitle {
+        font-size: 20px;
+      }
+    }
+
+    /* Intro */
+    .intro {
+      padding: 0 24px 64px;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+    }
+
+    @media (min-width: 640px) {
+      .intro {
+        padding: 0 24px 96px;
+      }
+    }
+
+    .intro-text {
+      max-width: 576px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--warm-600);
+      text-align: center;
+    }
+
+    @media (min-width: 640px) {
+      .intro-text {
+        font-size: 18px;
+        line-height: 2;
+      }
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 0;
+    }
+
+    @media (min-width: 1024px) {
+      .divider {
+        padding: 48px 0;
+      }
+    }
+
+    .divider-line {
+      height: 1px;
+      width: 64px;
+      background-color: rgba(212, 206, 195, 0.6);
+    }
+
+    .divider-dot {
+      margin: 0 16px;
+      height: 6px;
+      width: 6px;
+      border-radius: 50%;
+      background-color: rgba(181, 173, 158, 0.4);
+    }
+
+    /* Movie List */
+    .movie-list {
+      padding: 0 24px;
+    }
+
+    @media (min-width: 640px) {
+      .movie-list {
+        padding: 0 32px;
+      }
+    }
+
+    .movie-list-inner {
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+
+    /* Movie Card */
+    .movie-card {
+      padding: 48px 0;
+      opacity: 0;
+      transform: translateY(32px);
+    }
+
+    @media (min-width: 640px) {
+      .movie-card {
+        padding: 64px 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .movie-card {
+        padding: 80px 0;
+      }
+    }
+
+    .movie-card.visible {
+      animation: fadeInUp 0.7s ease-out forwards;
+    }
+
+    .movie-card-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .movie-card-inner {
+        flex-direction: row;
+        gap: 64px;
+      }
+
+      .movie-card-inner.reverse {
+        flex-direction: row-reverse;
+      }
+    }
+
+    /* Poster */
+    .poster-wrapper {
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .poster-wrapper {
+        width: 41.666%;
+      }
+    }
+
+    .poster {
+      position: relative;
+      aspect-ratio: 2 / 3;
+      max-width: 360px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      background-color: rgba(232, 228, 221, 0.5);
+    }
+
+    .poster-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(232, 228, 221, 0.6), rgba(212, 206, 195, 0.4));
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .poster-placeholder.hidden {
+      display: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .poster img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.05);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .poster img.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .poster-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent, transparent);
+      pointer-events: none;
+    }
+
+    /* Content */
+    .movie-content {
+      width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+      .movie-content {
+        width: 58.333%;
+      }
+    }
+
+    .movie-meta {
+      margin-bottom: 20px;
+    }
+
+    /* Mood Tag */
+    .mood-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid;
+      margin-bottom: 12px;
+    }
+
+    .mood-tag.heavy {
+      background-color: rgba(127, 29, 29, 0.1);
+      color: rgba(127, 29, 29, 0.7);
+      border-color: rgba(127, 29, 29, 0.15);
+    }
+
+    .mood-tag.strange {
+      background-color: rgba(76, 29, 149, 0.1);
+      color: rgba(76, 29, 149, 0.7);
+      border-color: rgba(76, 29, 149, 0.15);
+    }
+
+    .mood-tag.cold {
+      background-color: rgba(12, 74, 110, 0.1);
+      color: rgba(12, 74, 110, 0.7);
+      border-color: rgba(12, 74, 110, 0.15);
+    }
+
+    .mood-tag.absurd {
+      background-color: rgba(120, 53, 15, 0.1);
+      color: rgba(120, 53, 15, 0.7);
+      border-color: rgba(120, 53, 15, 0.15);
+    }
+
+    .mood-tag.uncompromising {
+      background-color: rgba(68, 64, 60, 0.1);
+      color: rgba(68, 64, 60, 0.8);
+      border-color: rgba(68, 64, 60, 0.15);
+    }
+
+    .movie-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--warm-900);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .movie-title {
+        font-size: 36px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .movie-title {
+        font-size: 44px;
+      }
+    }
+
+    .movie-info {
+      font-size: 14px;
+      color: var(--warm-500);
+      letter-spacing: 0.025em;
+    }
+
+    .movie-info-original {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      color: var(--warm-600);
+    }
+
+    .movie-info-separator {
+      margin: 0 8px;
+      color: var(--warm-300);
+    }
+
+    .movie-description {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--warm-700);
+      max-width: 576px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .movie-description {
+        font-size: 18px;
+        line-height: 2;
+      }
+    }
+
+    /* Footer */
+    .footer {
+      padding: 64px 24px 48px;
+      text-align: center;
+    }
+
+    @media (min-width: 640px) {
+      .footer {
+        padding: 96px 24px 64px;
+      }
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--warm-300);
+      letter-spacing: 0.05em;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <p class="header-label">Подборка · Кино · Настроение</p>
+      <h1 class="header-title">5&nbsp;фильмов, которые пробирают до&nbsp;костей</h1>
+      <p class="header-subtitle">Если вам понравился «Догман»</p>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <section class="intro">
+    <p class="intro-text">
+      Эти фильмы объединяет одно — они не&nbsp;отпускают. Здесь нет простых героев и&nbsp;лёгких ответов. Только психологическая глубина, социальный надрыв и&nbsp;тот&nbsp;самый привкус неуютной правды, который остаётся после титров. Каждый из&nbsp;них — по-своему больной, по-своему красивый.
+    </p>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Movie List -->
+  <main class="movie-list">
+    <div class="movie-list-inner">
+
+      <!-- Movie 1: Джокер -->
+      <div class="movie-card" data-index="0">
+        <article class="movie-card-inner">
+          <div class="poster-wrapper">
+            <div class="poster">
+              <div class="poster-placeholder"></div>
+              <img 
+                src="https://images.pexels.com/photos/19793223/pexels-photo-19793223.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" 
+                alt="Одинокий силуэт на тёмной городской улице — атмосфера изоляции и надрыва"
+                loading="lazy"
+              >
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+          <div class="movie-content">
+            <div class="movie-meta">
+              <span class="mood-tag heavy">Тяжёлый</span>
+              <h2 class="movie-title">Джокер</h2>
+              <p class="movie-info">
+                <span class="movie-info-original">Joker</span>
+                <span class="movie-info-separator">·</span>
+                2019
+                <span class="movie-info-separator">·</span>
+                Тодд Филлипс
+              </p>
+            </div>
+            <p class="movie-description">
+              Город давит на тебя шумом, равнодушием и бетоном. Артур Флек не злодей — он просто человек, которого никто не захотел услышать. Филлипс снял не комиксовый фильм, а портрет социальной боли, от которой сводит скулы. Здесь нет катарсиса — только нарастающий гул тишины внутри человека, которого мир решил не замечать.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-dot"></div>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Movie 2: Бивень -->
+      <div class="movie-card" data-index="1">
+        <article class="movie-card-inner reverse">
+          <div class="poster-wrapper">
+            <div class="poster">
+              <div class="poster-placeholder"></div>
+              <img 
+                src="https://images.pexels.com/photos/26612521/pexels-photo-26612521.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" 
+                alt="Силуэт в тёмном туманном лесу — ощущение сюрреалистичного ужаса"
+                loading="lazy"
+              >
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+          <div class="movie-content">
+            <div class="movie-meta">
+              <span class="mood-tag strange">Странный</span>
+              <h2 class="movie-title">Бивень</h2>
+              <p class="movie-info">
+                <span class="movie-info-original">Tusk</span>
+                <span class="movie-info-separator">·</span>
+                2014
+                <span class="movie-info-separator">·</span>
+                Кевин Смит
+              </p>
+            </div>
+            <p class="movie-description">
+              Кевин Смит забрался в территорию, где ему никто не ждал — и вышло жутко. Это не хоррор в привычном смысле, а медленное сползание в безумие, от которого хочется отвернуться, но не получается. Сюрреализм здесь — не приём, а диагноз. Фильм оставляет ощущение липкого, неотвязного кошмара, в который ты попал вместе с героем.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-dot"></div>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Movie 3: Никто -->
+      <div class="movie-card" data-index="2">
+        <article class="movie-card-inner">
+          <div class="poster-wrapper">
+            <div class="poster">
+              <div class="poster-placeholder"></div>
+              <img 
+                src="https://images.pexels.com/photos/12748702/pexels-photo-12748702.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" 
+                alt="Тихая ночная пригородная улица — спокойствие, которое вот-вот взорвётся"
+                loading="lazy"
+              >
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+          <div class="movie-content">
+            <div class="movie-meta">
+              <span class="mood-tag cold">Холодный</span>
+              <h2 class="movie-title">Никто</h2>
+              <p class="movie-info">
+                <span class="movie-info-original">Nobody</span>
+                <span class="movie-info-separator">·</span>
+                2021
+                <span class="movie-info-separator">·</span>
+                Илья Найшуллер
+              </p>
+            </div>
+            <p class="movie-description">
+              Тишина пригорода, серость быта, мужчина, которого все считают мебелью. А потом — щелчок. Найшуллер мастерски строит контраст между удушающей рутиной и взрывной яростью. Это кино про тех, кого недооценили — и про ту самую секунду, когда «никто» решает перестать молчать.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-dot"></div>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Movie 4: Семь психопатов -->
+      <div class="movie-card" data-index="3">
+        <article class="movie-card-inner reverse">
+          <div class="poster-wrapper">
+            <div class="poster">
+              <div class="poster-placeholder"></div>
+              <img 
+                src="https://images.pexels.com/photos/5389619/pexels-photo-5389619.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" 
+                alt="Пустая сцена в драматическом свете — театральность безумия"
+                loading="lazy"
+              >
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+          <div class="movie-content">
+            <div class="movie-meta">
+              <span class="mood-tag absurd">Абсурдный</span>
+              <h2 class="movie-title">Семь психопатов</h2>
+              <p class="movie-info">
+                <span class="movie-info-original">Seven Psychopaths</span>
+                <span class="movie-info-separator">·</span>
+                2012
+                <span class="movie-info-separator">·</span>
+                Мартин МакДона
+              </p>
+            </div>
+            <p class="movie-description">
+              МакДона пишет диалоги как хирург — точно, больно и с чёрным юмором, от которого нервно смеёшься. Это фильм, где безумие персонажей — зеркало нашей собственной абсурдности. Здесь насилие граничит с поэзией, а самые тронутые герои говорят самые честные вещи. После просмотра остаётся привкус горькой, красивой иронии.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-dot"></div>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Movie 5: Старикам тут не место -->
+      <div class="movie-card" data-index="4">
+        <article class="movie-card-inner">
+          <div class="poster-wrapper">
+            <div class="poster">
+              <div class="poster-placeholder"></div>
+              <img 
+                src="https://images.pexels.com/photos/16962784/pexels-photo-16962784.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" 
+                alt="Пустая дорога уходит в горизонт пустыни — бескомпромиссная пустота"
+                loading="lazy"
+              >
+              <div class="poster-overlay"></div>
+            </div>
+          </div>
+          <div class="movie-content">
+            <div class="movie-meta">
+              <span class="mood-tag uncompromising">Бескомпромиссный</span>
+              <h2 class="movie-title">Старикам тут не место</h2>
+              <p class="movie-info">
+                <span class="movie-info-original">No Country for Old Men</span>
+                <span class="movie-info-separator">·</span>
+                2007
+                <span class="movie-info-separator">·</span>
+                Джоэл и Итан Коэны
+              </p>
+            </div>
+            <p class="movie-description">
+              Братья Коэн сняли фильм, в котором тишина страшнее любого крика. Антон Чигур — не персонаж, а сила природы, неумолимая и лишённая эмоций. Пустыня Техаса здесь — не декорация, а действующее лицо: равнодушное, бесконечное, высасывающее надежду. Это кино, после которого молчишь — потому что сказать нечего.
+            </p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Divider -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">Сделано с&nbsp;любовью к&nbsp;кино</p>
+  </footer>
+
+  <script>
+    // Handle image loading
+    document.querySelectorAll('.poster img').forEach(img => {
+      if (img.complete) {
+        img.classList.add('loaded');
+        img.previousElementSibling?.classList.add('hidden');
+      } else {
+        img.addEventListener('load', function() {
+          this.classList.add('loaded');
+          this.parentElement.querySelector('.poster-placeholder')?.classList.add('hidden');
+        });
+      }
+    });
+
+    // Animate movie cards on scroll
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -100px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = parseInt(entry.target.dataset.index) || 0;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.movie-card').forEach(card => {
+      observer.observe(card);
+    });
+  </script>
+</body>
 </html>
